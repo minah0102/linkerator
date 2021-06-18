@@ -1,4 +1,8 @@
-const apiRouter = require('express').Router();
+// const apiRouter = require('express').Router();
+const express = require("express");
+const apiRouter = express.Router();
+
+const { linksRouter } = require('./links');
 
 apiRouter.get("/", (req, res, next) => {
   res.send({
@@ -11,5 +15,7 @@ apiRouter.get("/hello", (req, res, next) => {
     message: "Hello Visitor!",
   });
 });
+
+apiRouter.use('/links', linksRouter);
 
 module.exports = apiRouter;
