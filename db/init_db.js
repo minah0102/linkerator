@@ -53,7 +53,7 @@ async function createTables() {
     await client.query(/*sql*/`
       CREATE TABLE tags(
         id SERIAL PRIMARY KEY,
-        tagname TEXT UNIQUE NOT NULL
+        name TEXT UNIQUE NOT NULL
       );
     `);
         
