@@ -1,0 +1,34 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: gray;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    flex-grow: 3;
+    font-size: 40px;
+    border: solid /* #2707F1*/black;
+    border-right: none;
+    border-left: none;
+    color: /* #2707F1*/ #49fb35;
+    font-style: arial;
+    background-color: /* orangered*/ /*#49fb35*/ /*#03A062*/ black;
+    text-shadow: 1px 1px lightgray;
+    padding: 10px;
+    
+}
+
+header h1 {
+    text-align: center;
+}
+
+
+

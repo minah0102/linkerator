@@ -1,0 +1,8 @@
+h2 {
+    display: flex;
+    justify-content: center;
+    color: /*orangered*/ #49fb35 /*#03A062*/;
+    font-style: arial;
+    text-shadow: 1px 1px black/* #2707F1*/;
+    padding: 10px;
+}

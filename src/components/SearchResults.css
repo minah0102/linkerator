@@ -1,5 +1,13 @@
-/* .LinkList {
+.Link {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-    grid-gap: 12px;
-  } */
+    grid-template-columns: 1fr 40%;
+    grid-template-rows: 1fr 32px;
+  
+    grid-gap: 5px;
+  
+    border: 1px solid grey;
+    background: #eee;
+    padding: 12px;
+  
+    box-shadow: 0 2px 6px -3px black;
+  } 

@@ -12,13 +12,31 @@ import {
 
 
 const App = () => {
+{/*
+  const [linkList, setLinkList] = useState([]);
+  const [, setUserRoutines] = useState([]);
+
+  useEffect(() => {
+    getLinks()
+      .then((links) => {
+        setLinkList(links);
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+  }, []);
+*/}
+
   return (
     <div>
-      <h1>Linkerator</h1>
       <SearchBar />
       {/*<SearchResults />
       */}
       <LinkList />{/*LinkList includes NewLinkForm*/}
+      {/* //something like this should go in LinkList?
+        link={link}
+        addLinkToList={addLinkToList}
+      */}
     </div>
   );
 };

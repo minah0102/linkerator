@@ -5,13 +5,13 @@ import "./Link.css";
 const Link = ({ link, num }) => {
   return (
 
-    //in the <a> tag, need to make href=the link (not the link property of the object)
-    //tags should be similar to LinkList.js lines 
+    //in the <a> tag, need to make href=the link (not the link property)
+    //tags should be similar to LinkList.js lines for mapping over the links
     <div className="Link">
       <div>
-        {num}.<a href={link.url}>{link.url}</a>
+        {num}. <a href={link.url}>{link.url}</a>
       </div>
-      <div>clicked:{link.count} times</div>
+      <div>clicked: {link.count} times</div>
       <div>comments: {link.comment}</div>
       <div>tags: </div>
       {/*<links.map((l, idx) => {
