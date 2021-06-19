@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import "./NewLinkForm.css";
+
 const NewLinkForm = ({setLinks}) => {
   const [linkVal, setLinkVal] = useState("");
 
@@ -25,15 +27,15 @@ const NewLinkForm = ({setLinks}) => {
   };
 
   return (
-    <div>
+    <div id="add-link">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Paste a new link here"
+          placeholder="                Paste a new link here"
           value={linkVal}
           onChange={handleInputChange}
         />
-        <button>Add This Link to Linkerator</button>
+        <button type="submit">Add This Link to Linkerator</button>
       </form>
     </div>
   );

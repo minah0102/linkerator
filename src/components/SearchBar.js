@@ -1,51 +1,61 @@
 import React, { useState } from "react";
 
+import "./SearchBar.css";
+
 //below is mostly from deckbuilder react
 //this is mostly placeholder/needs work
 
 import { getSomething } from "../api";
 
 const SearchBar = ({ setResults }) => {
-  const [name, setName] = useState("");
-  const [text, setText] = useState("");
+  const [link, setLink] = useState("");
+  const [tag, setTag] = useState("");
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleLinkChange = (event) => {
+    setLink(event.target.value);
   };
 
-  const handleTextChange = (event) => {
-    setText(event.target.value);
+  const handleTagChange = (event) => {
+    setTag(event.target.value);
   };
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const cards = await getSomething({
-      name,
-      text,
+    const links = await getSomething({
+      link,
+      tag,
     });
 
-    setResults(cards);
+    setResults(links);
   }
 
   return (
-    <div id="search">
-      <h3>Search by Link or Tag</h3>
-      <form onSubmit={handleSubmit}>
+    <div>
+    <div class="search">
+    <div id="search-links">
+      <form class="search-form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="link"
-          value={name}
-          onChange={handleNameChange}
-        />
-        <input
-          type="text"
-          placeholder="tag"
-          value={text}
-          onChange={handleTextChange}
+          placeholder="         search links"
+          value={link}
+          onChange={handleLinkChange}
         />
         <button type="submit">Search</button>
+        </form>
+    </div>
+    <div id="search-tags">
+        <form class="search-form" onSubmit={handleSubmit}>
+        <button type="submit">Search</button>
+        <input
+          type="text"
+          placeholder="         search tags"
+          value={tag}
+          onChange={handleTagChange}
+        />
       </form>
+    </div>
+    </div>
     </div>
   );
 };
