@@ -26,7 +26,7 @@ async function dropTables() {
   console.log("Dropping All Tables...");
   try {
     await client.query(/*sql*/`
-    DROP TABLE IF EXISTS link_tags;
+      DROP TABLE IF EXISTS link_tags;
       DROP TABLE IF EXISTS links;
       DROP TABLE IF EXISTS tags;
       `);
@@ -53,7 +53,7 @@ async function createTables() {
     await client.query(/*sql*/`
       CREATE TABLE tags(
         id SERIAL PRIMARY KEY,
-        name TEXT UNIQUE NOT NULL
+        tagname TEXT UNIQUE NOT NULL
       );
     `);
         
@@ -88,19 +88,22 @@ async function createInitialLinks() {
         url: "https://google.com",
         count: 318,
         comment: "This is still the best search engine I know of.",
-        date: "13 Sept 2021"
+        date: "13 Sept 2021",
+        tags: ["search", "knowledge", "tool"]
       },
       {
         url: "https://youtube.com",
         count: 555,
         comment: "This is my favorite video website.",
-        date: "05 Jan 2020"
+        date: "05 Jan 2020",
+        tags: ["search", "video", "uploads"]
       },
       {
         url: "https://amazon.com",
         count: 708,
         comment: "This is a good shopping website.",
-        date: "04 July 2021"
+        date: "04 July 2021",
+        tags: ["search", "shopping"]
       },
     ]
     const links = await Promise.all(linksToCreate.map(createLink));
