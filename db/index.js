@@ -220,9 +220,9 @@ async function createTag(tagList) {
   try {
     await client.query(
       `
-    INSERT INTO tags(tagname)
+    INSERT INTO tags(name)
     VALUES(${insertTags})
-    ON CONFLICT (tagname) DO NOTHING;
+    ON CONFLICT (name) DO NOTHING;
     `,
       tagList
     );
@@ -230,7 +230,7 @@ async function createTag(tagList) {
       `
   
     SELECT * FROM tags
-    WHERE tagname IN (${selectTags})`,
+    WHERE name IN (${selectTags})`,
       tagList
     );
 
@@ -291,6 +291,23 @@ async function createLinkTag(linkId, tagId) {
   }
 }
 
+//clickCounts
+async function updateClickCounts(linkId, clickCount) {
+  try {
+    await client.query(`
+    UPDATE links
+    SET count=$2
+    WHERE id=$1
+    RETURNING *;
+    `, [linkId, clickCount]);
+
+    const updatedLink = await getLinkById(linkId);
+    return updatedLink;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // export
 module.exports = {
   client,
@@ -305,5 +322,6 @@ module.exports = {
   createTag,
   getLinkTagsbyId,
   addTagsToLink,
-  createLinkTag
+  createLinkTag,
+  updateClickCounts
 }

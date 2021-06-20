@@ -4,7 +4,7 @@ const linksRouter = express.Router();
 const {
 	getAllLinks,
 	getLinkById,
-	getLinkWithoutTags,
+	updateClickCounts,
 	createLink
 } = require("../db");
 
@@ -36,22 +36,38 @@ linksRouter.post('/', async (req, res, next) => {
 	}
 });
 
-linksRouter.patch("/:linkId", async (req, res, next) => {
-	try {
-		const { linkId: id } = req.params;
-		const { url, count, comment, date } = req.body;
+// linksRouter.patch("/:linkId", async (req, res, next) => {
+// 	try {
+// 		const { linkId: id } = req.params;
+// 		const { url, count, comment, date } = req.body;
 
-		const getLinkById = await getLinkById(id);
+// 		const getLinkById = await getLinkById(id);
 
-		if (getLinkById) {
-			const updateLink = await updateLink({url, count, comment, date});
-			res.send(updateLink);
-		}
+// 		if (getLinkById) {
+// 			const updateLink = await updateLink({url, count, comment, date});
+// 			res.send(updateLink);
+// 		}
 		
-	} catch (error) {
-		next (error);
-	}
-})
+// 	} catch (error) {
+// 		next (error);
+// 	}
+// })
+
+linksRouter.patch("/:linkId", async (req, res, next) => {
+  const { linkId } = req.params;
+  const { clickCount } = req.body;
+
+  try {
+    await updateClickCount(linkId, clickCount);
+    const updatedLink = await getLinkById(linkId);
+    console.log(updatedLink);
+
+    res.send(updatedLink);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 linksRouter.delete('/:linkId', async (req, res, next) => {
 	try {
