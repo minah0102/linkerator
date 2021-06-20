@@ -34,7 +34,7 @@ export async function createLink({ link, comment, tagId }) {
       link,
       clickCount: 0,
       comment,
-      date: new Date();
+      date: new Date(),
     });
     return data;
   } catch (error) {
