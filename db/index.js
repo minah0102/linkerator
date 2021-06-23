@@ -1,6 +1,5 @@
 // Connect to DB
 const { Client } = require('pg');
-const { unstable_renderSubtreeIntoContainer } = require('react-dom');
 const DB_NAME = 'localhost:5432/linkerator-dev';
 const DB_URL = process.env.DATABASE_URL || `postgres://${ DB_NAME }`;
 const client = new Client(DB_URL);
@@ -112,7 +111,7 @@ async function getLinkWithoutTags() {
 //   }
 // }
 
-async function createLink({ url, count, comment, date, tags }) {
+async function createLink({ url, count, comment, date }) {
   try {
     const { rows: [link] } = await client.query(/*sql*/`
       INSERT INTO links(url, count, comment, date)
@@ -192,15 +191,15 @@ async function getTagsbyId(id) {
   }
 }
 
-// async function createTag(tagname) {
+// async function createTag({linkId, tagName}) {
 
 //   try {
 //     const { rows: [tag] } = await client.query(/*sql*/`
-//       INSERT INTO tags(tagname)
-//       VALUES ($1)
-//       ON CONFLICT (tagname) DO NOTHING
+//       INSERT INTO tags("linkId", "tagName")
+//       VALUES ($1, $2)
+//       ON CONFLICT ("tagName") DO NOTHING
 //       RETURNING *;
-//     `, [tagname]);
+//     `, [linkId, tagName]);
 
 //     return tag;
 //   } catch (error) {
@@ -208,37 +207,54 @@ async function getTagsbyId(id) {
 //   }
 // }
 
-async function createTag(tagList) {
-  if (tagList.length === 0) {
-    return;
-  }
-
-  const insertTags = tagList.map((_, index) => `$${index + 1}`).join("), (");
-
-  const selectTags = tagList.map((_, index) => `$${index + 1}`).join(", ");
+async function createTag(tagName) {
 
   try {
-    await client.query(
-      `
-    INSERT INTO tags(name)
-    VALUES(${insertTags})
-    ON CONFLICT (name) DO NOTHING;
-    `,
-      tagList
-    );
-    const { rows } = await client.query(
-      `
-  
-    SELECT * FROM tags
-    WHERE name IN (${selectTags})`,
-      tagList
-    );
+    const { rows: [tag] } = await client.query(/*sql*/`
+      INSERT INTO tags("tagName")
+      VALUES ($1)
+      ON CONFLICT ("tagName") DO NOTHING
+      RETURNING *;
+    `, [tagName]);
 
-    return rows;
+    return tag;
   } catch (error) {
-    console.log("createTags", error);
+    throw error;
   }
 }
+
+
+// async function createTag(tagList) {
+//   if (tagList.length === 0) {
+//     return;
+//   }
+
+//   const insertTags = tagList.map((_, index) => `$${index + 1}`).join("), (");
+
+//   const selectTags = tagList.map((_, index) => `$${index + 1}`).join(", ");
+
+//   try {
+//     await client.query(
+//       `
+//     INSERT INTO tags(name)
+//     VALUES(${insertTags})
+//     ON CONFLICT (name) DO NOTHING;
+//     `,
+//       tagList
+//     );
+//     const { rows } = await client.query(
+//       `
+  
+//     SELECT * FROM tags
+//     WHERE name IN (${selectTags})`,
+//       tagList
+//     );
+
+//     return rows;
+//   } catch (error) {
+//     console.log("createTags", error);
+//   }
+// }
 //link-tags
 async function getLinkTagsbyId(id) {
   try {
@@ -253,29 +269,29 @@ async function getLinkTagsbyId(id) {
   }
 }
 
-// async function addTagsToLink({ linkId, tagId}) {
-//   try {
-//     const { rows: [newTag] } = await client.query(/*sql*/`
-//     INSERT INTO link_tags("linkId", "tagId")
-//     VALUES ($1, $2)
-//     RETURNING *;
-//     `, [linkId, tagId]);
-//     return newTag;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
-async function addTagsToLink(linkId, tagList) {
+async function addTagsToLink({ linkId, tagId}) {
   try {
-    const allTagsPromises = tagList.map((tag) => createLinkTag(linkId, tag.id));
-    await Promise.all(allTagsPromises);
-    return await getLinkById(linkId);
+    const { rows: [newTag] } = await client.query(/*sql*/`
+    INSERT INTO link_tags("linkId", "tagId")
+    VALUES ($1, $2)
+    RETURNING *;
+    `, [linkId, tagId]);
+    return newTag;
   } catch (error) {
-    console.log("Error on addTagsToLink...", error);
     throw error;
   }
 }
+
+// async function addTagsToLink(linkId, tagList) {
+//   try {
+//     const allTagsPromises = tagList.map((tag) => createLinkTag(linkId, tag.id));
+//     await Promise.all(allTagsPromises);
+//     return await getLinkById(linkId);
+//   } catch (error) {
+//     console.log("Error on addTagsToLink...", error);
+//     throw error;
+//   }
+// }
 
 
 async function createLinkTag(linkId, tagId) {
