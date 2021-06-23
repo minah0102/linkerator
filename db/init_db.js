@@ -53,7 +53,7 @@ async function createTables() {
     await client.query(/*sql*/`
       CREATE TABLE tags(
         id SERIAL PRIMARY KEY,
-        name TEXT UNIQUE NOT NULL
+        "tagName" TEXT UNIQUE NOT NULL
       );
     `);
         
@@ -88,22 +88,19 @@ async function createInitialLinks() {
         url: "https://google.com",
         count: 318,
         comment: "This is still the best search engine I know of.",
-        date: "13 Sept 2021",
-        tags: ["search", "knowledge", "tool"]
+        date: "13 Sept 2021"
       },
       {
         url: "https://youtube.com",
         count: 555,
         comment: "This is my favorite video website.",
-        date: "05 Jan 2020",
-        tags: ["search", "video", "uploads"]
+        date: "05 Jan 2020"
       },
       {
         url: "https://amazon.com",
         count: 708,
         comment: "This is a good shopping website.",
-        date: "04 July 2021",
-        tags: ["search", "shopping"]
+        date: "04 July 2021"
       },
     ]
     const links = await Promise.all(linksToCreate.map(createLink));

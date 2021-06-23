@@ -27,14 +27,14 @@ export async function  getLinkById(linkId) {
   }
 }
 
-export async function createLink({ link, comment, tagId }) {
+export async function createLink({ link, comment, tags }) {
   try {
     const { data } = await axios.post("/api/links", {
-      tagId,
       link,
       clickCount: 0,
       comment,
-      date: new Date();
+      date: new Date(),
+      tags
     });
     return data;
   } catch (error) {
