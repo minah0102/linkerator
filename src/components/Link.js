@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React /*, { useState }*/ from "react";
 
 import "./Link.css";
+
+//need an onClick to open a new window
 
 const Link = ({ link, num }) => {
   return (
 
-    //in the <a> tag, need to make href=the link (not the link property)
+    //in the <a> tag, need to make href=the link
     //tags should be similar to LinkList.js lines for mapping over the links
     <div className="Link">
       <div>
